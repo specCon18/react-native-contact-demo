@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Text, Pressable, Modal, Alert } from 'react-native';
-import { useModalContext } from './ModalContext'; // Import useModalContext
+import { useModalContext } from './ModalContext';
 
 export const ContactInfoModal = () => {
     const { contactInfoModalVisible, setContactInfoModalVisible } = useModalContext(); // Use context
@@ -29,7 +29,7 @@ export const ContactInfoModal = () => {
 
 
 export const DeleteContactButton = () => {
-    const { deleteContactModalVisible, setDeleteContactModalVisible } = useModalContext(); // Use the context
+    const { deleteContactModalVisible, setDeleteContactModalVisible } = useModalContext();
 
     return (
         <View>

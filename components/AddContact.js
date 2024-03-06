@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, StyleSheet, Text, Pressable, Modal, Alert } from 'react-native';
-import { useModalContext } from './ModalContext'; // Import useModalContext
+import { useModalContext } from './ModalContext';
 
 export const AddContactModal = () => {
-    const { toggleAddContactModal, addContactModalVisible } = useModalContext(); // Use context
+    const { toggleAddContactModal, addContactModalVisible } = useModalContext();
     
     return (
         <Modal
