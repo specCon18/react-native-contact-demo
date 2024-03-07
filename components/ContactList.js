@@ -1,6 +1,8 @@
 import React from 'react';
 import { ScrollView, View, Text, StyleSheet } from 'react-native';
+import { useModalContext } from '../components/Modal';
 
+// #region Components
 export const ContactList = ({ names }) => {
     // Function to categorize and sort names by the first letter of the first name
     const categorizeAndSortNames = () => {
@@ -40,8 +42,31 @@ export const ContactList = ({ names }) => {
     );
 };
 
+export const AddContactButton = () => {
+    const { toggleAddContactModal } = useModalContext();
 
+    return (
+        <Pressable style={styles.add_contact_button} onPress={toggleAddContactModal}>
+            <Text style={styles.add_button_text}>Add Contact</Text>
+        </Pressable>
+    );
+};
+// #endregion
+
+// #region StyleSheets
 const styles = StyleSheet.create({
+    add_contact_button: {
+        backgroundColor: '#222',
+        paddingTop: 10,
+        paddingBottom: 10,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    add_button_text: {
+        fontSize: 20 ,
+        fontWeight: '400',
+        color: '#fff',
+    },
     contact_group_header: {
         paddingTop: 10,
         paddingBottom: 10,
@@ -60,12 +85,6 @@ const styles = StyleSheet.create({
         paddingLeft: 20 ,
         color: '#fff',
     },
-    modal_text: {
-        fontSize: 40 ,
-        fontWeight: '900',
-        paddingLeft: 20 ,
-        color: '#fff',
-    },
     contact_name: {
         fontSize: 20,
         paddingTop:15,
@@ -75,3 +94,4 @@ const styles = StyleSheet.create({
         color: '#fff',
     },
 });
+// #endregion

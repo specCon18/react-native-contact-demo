@@ -1,63 +1,108 @@
 import React from 'react';
-import { View, StyleSheet, Text, Pressable, Modal, Alert } from 'react-native';
-import { useModalContext } from './ModalContext';
+import { View, StyleSheet, TextInput, Modal } from 'react-native';
+import { useModalContext } from '../components/Modal';
+import * as Storage from '../utilities/Storage';
 
+// #region Components
 export const AddContactModal = () => {
     const { toggleAddContactModal, addContactModalVisible } = useModalContext();
-    
+
     return (
-        <Modal
-            animationType='slide'
-            transparent={true}
-            visible={addContactModalVisible}
-            onRequestClose={() => {
-                Alert.alert('Modal has been closed.');
-                toggleAddContactModal();
-        }}>
-                <View style={styles.modal}>
-                    <Pressable
-                        style={[styles.button, styles.buttonClose]}
-                        onPress={() => toggleAddContactModal()}>
-                        <Text style={styles.modal_text}>Back</Text>
-                    </Pressable>
-                </View>
+        <Modal animationType='fade' transparent={true} visible={addContactModalVisible} onRequestClose={() => {toggleAddContactModal()}}>
+            <View style={styles.modal}>
+                <Modal.ModalNavigationInputGroup onPressCancel ={toggleAddContactModal()}onPressSubmit={addNewContactToList(createNewContact())}/>
+                <ModalTextInputGroup />
+            </View>
         </Modal>
     );
 };
 
-export const AddContactButton = () => {
-    const { toggleAddContactModal } = useModalContext();
-
+const ModalTextInputGroup = () => {
+    const [
+        email, onChangeEmail,
+        phone_number, onChangePhoneNumber,
+        address, onChangeAddress,
+        last_name, onChangeLastName,
+        first_name, onChangeFirstName
+    ] = React.useState('');
     return (
-        <View style={styles.add_contact_button}>
-            <Pressable
-                style={styles.button}
-                onPress={toggleAddContactModal}>
-                <Text style={styles.add_button_text}>Add Contact</Text>
-            </Pressable>
-        </View>
-    );
-};
+        <>
+            <ModalTextField 
+                placeholder={"First Name"}
+                value={first_name}
+                onChangeText={onChangeFirstName}
+            />
+            <ModalTextField
+                placeholder={"Last Name"}
+                value={last_name}
+                onChangeText={onChangeLastName}
+            />
+            <ModalTextField
+                placeholder={"Home Address"}
+                value={address}
+                onChangeText={onChangeAddress}
+            />
+            <ModalTextField
+                placeholder={"E-Mail Address"}
+                value={email}
+                onChangeText={onChangeEmail}
+            />
+            <ModalTextField
+                placeholder={"Phone Number"}
+                value={phone_number}
+                onChangeText={onChangePhoneNumber}
+            />
+        </>
+    )
+}
 
+const ModalTextField = (placeholder,value,onChangeText) => {
+    return (
+        <TextInput
+            style={styles.input}
+            onChangeText={onChangeText}
+            value={value}
+            placeholder = {placeholder}
+            placeholderTextColor={'#fff'}
+        />
+    )
+}
+// #endregion
+
+// #region Helper Functions
+function createNewContact(first_name,last_name,address,email,phone_number){
+    return({
+        "first_name": first_name,
+        "last_name": last_name,
+        "number": phone_number,
+        "address": address,
+        "email": email
+    })
+}
+
+async function addNewContactToList(newContact) {
+    let contact_list = await Storage.readContacts();
+    contact_list.push(newContact);
+    await Storage.writeContacts(contact_list);
+}
+// #endregion
+
+// #region Stylesheet
 const styles = StyleSheet.create({
-    add_contact_button: {
-        backgroundColor: '#222',
-        paddingTop: 10,
-        paddingBottom: 10,
-        alignItems: "center"
-    },
-    modal_text: {
-        fontSize: 40 ,
-        fontWeight: '900',
-        paddingLeft: 20 ,
-        color: '#fff',
-    },
-    add_button_text: {
-        fontSize: 20 ,
-        fontWeight: '400',
-        color: '#fff',
+
+    input: {
+        height: 40,
+        margin: 12,
+        borderWidth: 1,
+        padding: 10,
+        borderColor: '#fff',
     },
     modal: {
-        backgroundColor:'#3d3d3d'
-    }
+        flex: 1,
+        paddingLeft: 20,
+        paddingRight: 20,
+        backgroundColor: 'rgba(0,0,0,0.7)',
+        justifyContent: 'center',
+    },
 });
+// #endregion

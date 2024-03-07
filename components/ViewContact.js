@@ -1,55 +1,43 @@
 import React from 'react';
-import { View, StyleSheet, Text, Pressable, Modal, Alert } from 'react-native';
-import { useModalContext } from './ModalContext';
+import { View, StyleSheet, Text, Pressable, Modal } from 'react-native';
+import { useModalContext } from '../components/Modal';
 
+// #region Components
 export const ContactInfoModal = () => {
-    const { contactInfoModalVisible, setContactInfoModalVisible } = useModalContext(); // Use context
+    const { toggleContactInfoModal, contactInfoModalVisible } = useModalContext(); // Use context
     
     return (
-        <Modal
-            animationType='slide'
-            transparent={true}
-            visible={contactInfoModalVisible}
-            onRequestClose={() => {
-                Alert.alert('Modal has been closed.');
-                setContactInfoModalVisible(!contactInfoModalVisible);
-        }}>
-                <View style={styles.modal}>
-                    <Pressable
-                        style={[styles.button, styles.buttonClose]}
-                        onPress={() => setContactInfoModalVisible(!contactInfoModalVisible)}>
-                        <Text style={styles.modal_text}>Back</Text>
-                    </Pressable>
-                    <DeleteContactButton />
-                </View>
+        <Modal animationType='fade' transparent={true} visible={contactInfoModalVisible} onRequestClose={() => {toggleContactInfoModal()}}>
+            <View style={styles.modal}>
+                <Modal.ModalNavigationInputGroup onPressCancel={toggleContactInfoModal()}/>
+                <ModalTextInputGroup />
+            </View>
         </Modal>
     );
 };
 
+const ModalDataField = (contact) => {
 
+}
 
-export const DeleteContactButton = () => {
-    const { deleteContactModalVisible, setDeleteContactModalVisible } = useModalContext();
+const DeleteContactButton = () => {
+    // TODO: Implement
+    //const { deleteContactModalVisible, setDeleteContactModalVisible } = useModalContext();
 
     return (
-        <View>
-            <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setDeleteContactModalVisible(!deleteContactModalVisible)}>
-                <Text style={styles.group_text}>Add Contact</Text>
-            </Pressable>
-        </View>
+        <Pressable
+            style={[styles.button, styles.buttonClose]}
+            onPress={() => setDeleteContactModalVisible(!deleteContactModalVisible)}>
+            <Text style={styles.group_text}>Add Contact</Text>
+        </Pressable>
     );
 };
+// #endregion
 
+// #region StyleSheets
 const styles = StyleSheet.create({
-    modal_text: {
-        fontSize: 40 ,
-        fontWeight: '900',
-        paddingLeft: 20 ,
-        color: '#fff',
-    },
     modal: {
         backgroundColor:'#3d3d3d'
     }
 });
+// #endregion
