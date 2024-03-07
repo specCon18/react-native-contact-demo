@@ -11,13 +11,6 @@ import { ContactList, AddContactButton } from './components/ContactList';
   // TODO: create contact_list global states accompanying changeFunction
   // TODO: Ammend AddContact.addNewContactToList() to also set the contact_list state to current when saving so the new contact is rendered
 // TODO: ViewContact.js
-  // TODO: Implement ContactInfoModal Functionality
-  // * Display the following editible fields all fields are not editible till the edit button is pressed
-    // first name
-    // last name
-    // email
-    // address
-    // phone number
   // * Turn each item added to ContactList into a button to toggle ContactInfoModal
 // TODO: Clean names
   // ! remember verb+noun phrases
